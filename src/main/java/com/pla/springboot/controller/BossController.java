@@ -27,7 +27,7 @@ import lombok.experimental.FieldDefaults;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @CrossOrigin(origins = "*")
-@RequestMapping("/bosses")
+@RequestMapping("/api/bosses")
 public class BossController {
     BossService bossService;
     ObjectMapper objectMapper;
