@@ -1,6 +1,5 @@
 package com.pla.springboot.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.User;
@@ -13,14 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 @PropertySource("classpath:configs.properties")
 public class UserDetailsServiceFromEnv implements UserDetailsService {
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public UserDetailsServiceFromEnv(Environment environment, PasswordEncoder passwordEncoder) {
+        this.environment = environment;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         String adminUser = environment.getProperty("ADMIN_USER");
         String adminPass = environment.getProperty("ADMIN_PASSWORD");
         if (adminUser == null || adminPass == null) {
