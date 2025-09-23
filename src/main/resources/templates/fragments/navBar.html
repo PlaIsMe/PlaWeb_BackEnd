@@ -7,10 +7,22 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+        <div class="navbar-nav align-items-center">
+            <form method="get">
+                <div class="nav-item d-flex align-items-center">
+                    <button class="btn bg-transparent" type="submit"><i class="bx bx-search fs-4 lh-0"></i></button>
+                    <input name="kw" type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                        aria-label="Search..." th:value="${kw != null} ? ${kw} : ''"/>
+                    <th:block th:if="${filterStatus != null}">
+                        <input type="hidden" name="status" th:value="${filterStatus}" />
+                    </th:block>
+                </div>
+            </form>
+        </div>
+
         <ul class="navbar-nav flex-row align-items-center ms-auto">
-            <!-- User -->
-            <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                <form th:action="@{/logout}" method="post" class="dropdown-item">
+            <li class="nav-item ">
+                <form th:action="@{/logout}" method="post">
                     <i class="bx bx-power-off me-2"></i>
                     <input type="submit" value="Logout" class="align-middle btn btn-secondary">
                 </form>

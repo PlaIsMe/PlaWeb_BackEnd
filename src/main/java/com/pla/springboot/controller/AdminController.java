@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AdminController {
     @RequestMapping("/admin")
-    public String index(Model model, @RequestParam Map<String, String> params) {
+    public String login(Model model, @RequestParam Map<String, String> params) {
         if (params.containsKey("error")) {
             model.addAttribute("loginError", true);
         }
@@ -18,7 +18,17 @@ public class AdminController {
     }
 
     @RequestMapping("/admin/dashboard")
-    public String dashBoard(Model model) {
+    public String dashboard(Model model) {
         return "pages/dashboard";
+    }
+
+    @RequestMapping("/admin/categories")
+    public String categories(Model model) {
+        return "pages/categories";
+    }
+
+    @RequestMapping("/admin/bosses")
+    public String bosses(Model model) {
+        return "pages/bosses";
     }
 }
