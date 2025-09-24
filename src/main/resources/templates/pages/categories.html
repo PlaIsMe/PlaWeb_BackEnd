@@ -3,7 +3,7 @@
     layout:decorate="~{layout/layout}">
 
 <head>
-    <title>Quản lý tài khoản</title>
+    <title>Pla Web Admin</title>
 </head>
 
 <body>
@@ -28,12 +28,12 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <th:block th:each="p : ${accounts}">
+                        <th:block th:each="item : ${categories}">
                             <tr>
                                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong
-                                        th:text="${p.id}"></strong></td>
-                                <td th:text="${p.name}"></td>
-                                <th><a th:href="@{/admin/accounts/{id}(id=${p.id})}">Details</a></th>
+                                        th:text="${item.id}"></strong></td>
+                                <td th:text="${item.name}"></td>
+                                <th><a type="button" class="btn btn-primary" th:href="@{/admin/categories/{id}(id=${item.id})}">Edit</a></th>
                             </tr>
                         </th:block>
                     </tbody>

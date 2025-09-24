@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @ToString
-public class BossResponse {
+public class ItemResponse {
     String id;
     String name;
     String imageUrl;

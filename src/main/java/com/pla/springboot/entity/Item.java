@@ -22,7 +22,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Boss {
+public class Item {
     @Id
     @Column(length = 64)
     private String id;

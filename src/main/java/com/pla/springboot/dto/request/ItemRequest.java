@@ -16,11 +16,11 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BossRequest {
-    @Size(min = 3, message = "BOSS_ID_INVALID")
+public class ItemRequest {
+    @Size(min = 3, message = "ITEM_ID_INVALID")
     String id;
 
-    @Size(min = 3, message = "BOSS_NAME_INVALID")
+    @Size(min = 3, message = "ITEM_NAME_INVALID")
     String name;
 
     @Lob

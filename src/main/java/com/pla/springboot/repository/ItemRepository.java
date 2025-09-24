@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.pla.springboot.entity.Boss;
+import com.pla.springboot.entity.Item;
 
 @Repository
-public interface BossRepository extends JpaRepository<Boss, String> {
-    List<Boss> findByCategory_Id(Long categoryId);
+public interface ItemRepository extends JpaRepository<Item, String> {
+    List<Item> findByCategory_Id(Long categoryId);
 }

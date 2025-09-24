@@ -27,7 +27,7 @@ public class CategoryService {
     CategoryMapper categoryMapper;
 
     public CategoryResponse addCategory(CategoryRequest request) {
-        if (categoryRepository.existsByName(request.getName())) throw new AppException(ErrorCode.BOSS_ID_EXISTED);
+        if (categoryRepository.existsByName(request.getName())) throw new AppException(ErrorCode.ITEM_ID_EXISTED);
 
         Category category = categoryMapper.toCategory(request);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
@@ -37,5 +37,12 @@ public class CategoryService {
         return categoryRepository.findAll().stream()
                 .map(category -> categoryMapper.toCategoryResponse(category))
                 .collect(Collectors.toList());
+    }
+
+    public CategoryResponse getCategoryByName(String name) {
+        return categoryRepository
+                .findByName(name)
+                .map(categoryMapper::toCategoryResponse)
+                .get();
     }
 }

@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @PropertySource("classpath:configs.properties")
-public class UserDetailsServiceFromEnv implements UserDetailsService {
+public class AdminUserDetailsService implements UserDetailsService {
     private final Environment environment;
     private final PasswordEncoder passwordEncoder;
 
-    public UserDetailsServiceFromEnv(Environment environment, PasswordEncoder passwordEncoder) {
+    public AdminUserDetailsService(Environment environment, PasswordEncoder passwordEncoder) {
         this.environment = environment;
         this.passwordEncoder = passwordEncoder;
     }

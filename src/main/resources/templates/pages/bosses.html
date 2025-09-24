@@ -3,7 +3,7 @@
     layout:decorate="~{layout/layout}">
 
 <head>
-    <title>Quản lý bài đăng</title>
+    <title>Pla Web Admin</title>
 </head>
 
 <body>
@@ -21,26 +21,24 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <!-- <th>Số thứ tự</th> -->
                             <th>Id</th>
                             <th>Name</th>
                             <th>Image Url</th>
-                            <th style="max-width: 200px; text-overflow: ellipsis; overflow: hidden;">Description</th>
+                            <th style="width:500px; white-space: normal; overflow-wrap: anywhere;">Description</th>
                             <th>Youtube Link</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <th:block th:each="p : ${posts}">
+                        <th:block th:each="item : ${bosses}">
                             <tr>
-                                <td th:text="${p.id}"></td>
-                                <td th:text="${p.name}"></td>
-                                 <td th:text="${p.imageUrl}"></td>
-                                <td style="max-width: 200px; text-overflow: ellipsis; overflow: hidden;"
-                                    th:text="${p.description}"></td>
-                                <td th:text="${p.createdAt}"></td>
-                                <td th:text="${p.youtubeId}"></td>
-                                <th><a th:href="@{/admin/posts/{id}(id=${p.id})}">Details</a></th>
+                                <td th:text="${item.id}"></td>
+                                <td th:text="${item.name}"></td>
+                                <td><a th:href="${item.imageUrl}" target="_blank" rel="noopener noreferrer">Image</a></td>
+                                <td style="width:500px; white-space: normal; overflow-wrap: anywhere;"
+                                    th:text="${item.description}"></td>
+                                <td><a th:href="@{https://www.youtube.com/watch(v=${item.youtubeId})}" target="_blank" rel="noopener noreferrer">Youtube</a></td>
+                                <th><a type="button" class="btn btn-primary" th:href="@{/admin/items/{id}(id=${item.id})}">Edit</a></th>
                             </tr>
                         </th:block>
                     </tbody>

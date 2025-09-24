@@ -25,6 +25,7 @@ public class SecurityConfig {
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .formLogin(login -> login.loginPage("/admin")
                         .usernameParameter("username")
                         .passwordParameter("password")
