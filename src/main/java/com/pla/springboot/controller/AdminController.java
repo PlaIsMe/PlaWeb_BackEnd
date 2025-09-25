@@ -3,11 +3,13 @@ package com.pla.springboot.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.pla.springboot.dto.request.CategoryRequest;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
 import com.pla.springboot.dto.response.CategoryResponse;
 import com.pla.springboot.dto.response.ItemResponse;
@@ -23,7 +25,6 @@ import lombok.experimental.FieldDefaults;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AdminController {
-    int PAGE_SIZE = 10;
     ItemService itemService;
     CategoryService categoryService;
 
@@ -41,10 +42,48 @@ public class AdminController {
     }
 
     @GetMapping("/categories")
-    public String categories(Model model) {
-        List<CategoryResponse> categories = categoryService.getCategories();
+    public String categories(Model model, @RequestParam Map<String, String> params) {
+        List<CategoryResponse> categories = categoryService.search(params);
         model.addAttribute("categories", categories);
+        model.addAttribute("counter", Math.ceil(categoryService.count(params) * 1.0 / 5));
+
+        int page;
+        if (params != null) {
+            String p = params.get("page");
+            if (p != null && !p.isEmpty()) {
+                page = Integer.parseInt(p);
+            } else {
+                page = 1;
+            }
+
+            String kw = params.get("kw");
+            if (kw != null) {
+                model.addAttribute("kw", kw);
+            }
+
+        } else {
+            page = 1;
+        }
+        model.addAttribute("currentPage", page);
+
+        CategoryRequest category = new CategoryRequest();
+        model.addAttribute("category", category);
         return "pages/categories";
+    }
+
+    @PostMapping("/categories")
+    public String add(@ModelAttribute("category") @Valid CategoryRequest categoryRequest, BindingResult bindingResult)
+            throws Exception {
+        try {
+            if(bindingResult.hasErrors()){
+                return "pages/categories";
+            }
+            categoryService.addCategory(categoryRequest);
+            return "redirect:/admin/categories";
+        } catch (Exception e) {
+            bindingResult.addError(new ObjectError("exceptionError", e.getMessage()));
+            return "pages/categories";
+        }
     }
 
     @GetMapping("/bosses")
