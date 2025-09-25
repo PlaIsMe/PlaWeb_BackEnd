@@ -1,8 +1,12 @@
 package com.pla.springboot.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,10 +31,54 @@ public class CategoryService {
     CategoryMapper categoryMapper;
 
     public CategoryResponse addCategory(CategoryRequest request) {
-        if (categoryRepository.existsByName(request.getName())) throw new AppException(ErrorCode.ITEM_ID_EXISTED);
+        if (categoryRepository.existsByName(request.getName())) throw new AppException(ErrorCode.CATEGORY_NAME_EXISTED);
 
         Category category = categoryMapper.toCategory(request);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
+    }
+
+    public Long count(Map<String, String> params) {
+        String kw;
+        if (params != null) {
+            kw = params.get("kw");
+            if (kw == null || kw.isEmpty()) {
+                kw = "_";
+            } else {
+                kw = kw.trim();
+            }
+        } else {
+            kw = "_";
+        }
+        return categoryRepository.count(kw);
+    }
+
+    public List<CategoryResponse> search(Map<String, String> params) {
+        int page;
+        String kw;
+        if (params != null) {
+            String p = params.get("page");
+            if (p != null && !p.isEmpty()) {
+                page = Integer.parseInt(p) - 1;
+            } else {
+                page = 0;
+            }
+
+            kw = params.get("kw");
+            if (kw == null || kw.isEmpty()) {
+                kw = "_";
+            } else {
+                kw = kw.trim();
+            }
+
+        } else {
+            page = 0;
+            kw = "_";
+        }
+
+        Pageable pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC, "id"));
+        return categoryRepository.search(kw, pageable).stream()
+                .map(category -> categoryMapper.toCategoryResponse(category))
+                .collect(Collectors.toList());
     }
 
     public List<CategoryResponse> getCategories() {
