@@ -10,12 +10,7 @@
 
     <div layout:fragment="content">
         <div id="currentPage" th:attr="data-currentPage=${currentPage}"></div>
-        <button type="button" class="btn btn-primary">
-            Add Category
-        </button>
-
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Management /</span> Categories</h4>
-
         <div class="card">
             <h5 class="card-header">Categories</h5>
             <div class="table-responsive text-nowrap">
@@ -43,8 +38,8 @@
                         <ul class="pagination justify-content-center">
                             <th:block th:each="i : ${#numbers.sequence(1, counter)}">
                                 <th:block
-                                    th:with="pageAction=${'/admin/accounts' + '?page=' + i + (#strings.isEmpty(kw) ? '' : '&kw=' + kw) + (#strings.isEmpty(filterStatus) ? '' : '&status=' + filterStatus)}">
-                                    <li class="page-item" th:id="'pageAccounts' + ${i}">
+                                    th:with="pageAction=${'/admin/categories' + '?page=' + i + (#strings.isEmpty(kw) ? '' : '&kw=' + kw)}">
+                                    <li class="page-item" th:id="'pageCategories' + ${i}">
                                         <a class="page-link" th:href="${pageAction}" th:text="${i}"></a>
                                     </li>
                                 </th:block>
@@ -55,11 +50,25 @@
             </div>
         </div>
 
+        <form th:action="@{/admin/categories}" th:object="${category}" method="post" style="display: block;">
+            <div th:if="${#fields.hasAnyErrors()}" class="mb-3 pt-5 text-danger">
+                <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+            </div>
+            <div class="mb-3 pt-5">
+                <label class="form-label">Category name</label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text"><i class="bx bxs-book-content"></i></span>
+                    <input class="form-control" th:field="*{name}" th:name="name">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Category</button>
+        </form>
+
         <script>
             var categories = document.getElementById("categories");
             categories.className += " active";
             var curPage = document.getElementById("currentPage").getAttribute("data-currentPage");
-            var pageCategories = document.getElementById(`pageAccounts${curPage}`);
+            var pageCategories = document.getElementById(`pageCategories${curPage}`);
             if (pageCategories != null) {
                 pageCategories.className += " active";
             }
